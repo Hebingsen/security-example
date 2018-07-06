@@ -19,6 +19,7 @@ public class CustomUserDetails extends User implements UserDetails{
 	public CustomUserDetails(User user) {
 		this.username = user.getUsername();
 		this.password = user.getPassword();
+		this.phone = user.getPhone();
 	}
 
 	public CustomUserDetails() {

@@ -7,13 +7,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 
 import com.github.core.Constant;
 import com.github.core.Constant.SecurityConst;
 import com.github.handler.CustomAuthenticationFailureHandler;
 import com.github.handler.CustomAuthenticationSuccessHandler;
+import com.github.sms.security.SmsCodeAuthenticationSecurityConfig;
 import com.github.user.CustomUserDetailsService;
 
 @EnableWebSecurity
@@ -28,6 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+	
+	@Autowired
+	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -49,7 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// 当用户未登录时,会自动跳转该接口,web端可以指定跳转到登录页面,app端可以通过该接口返回需要让用户登录的响应信息
 		FormLoginConfigurer<HttpSecurity> loginConfig = http.formLogin().loginPage("/authentication/require");
 		
-		// 默认的用户名与密码登录提交的action/接口地址,只支持post方式提交,默认用户名:username,密码:password
+		// 默认的用户名与密码登录提交的action/接口地址,只支持post方式提交,默认用户名:username,密码:password,
+		// 这个地址映射的接口不需要我们写,spring security已经帮我们实现好了
 		loginConfig.loginProcessingUrl("/authentication/basic-login");
 		
 		// 当用户登录成功后进行的处理操作,web端可以跳转到登录成功的页面,app端可以通过该成功处理器,向用户返回登录成功的用户信息
@@ -66,16 +70,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// 禁止csrf
 		http.csrf().disable();
 		
-//		http.formLogin()
-//				// 当请求需要身份认证时，默认跳转的url
-//				.loginPage("/authentication/require")
-//				// 默认的用户名密码登录请求处理url
-//				.loginProcessingUrl("/authentication/basic-login").successHandler(customAuthenticationSuccessHandler)
-//				.failureHandler(customAuthenticationFailureHandler).and().authorizeRequests()
-//				.antMatchers("/authentication/**").permitAll().anyRequest().authenticated();
-//
-//		http.csrf().disable();
-
+		// 接下来实现手机号接收验证码进行登录
+		http.apply(smsCodeAuthenticationSecurityConfig);
 	}
 
 	@Override

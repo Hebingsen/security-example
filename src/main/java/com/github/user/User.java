@@ -1,7 +1,6 @@
 package com.github.user;
 
 
-import org.springframework.data.annotation.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,9 +15,9 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class User {
 
-	//@Id
 	//protected Long id;
 	protected String username;// 用户名
 	protected String password;// 密码
+	protected String phone;//手机号
 
 }
