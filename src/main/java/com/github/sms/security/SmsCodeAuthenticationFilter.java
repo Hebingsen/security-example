@@ -56,7 +56,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 		// 将请求信息request合并到登录令牌信息sms-token中
 		smsCodeAuthenticationToken.setDetails(authenticationDetailsSource.buildDetails(request));
 		
-		// 返回登录信息,交给鉴权管理器authenticationManager进行鉴权
+		// 返回登录信息,交给鉴权管理器authenticationManager映射到对应的authenticationProvider进行鉴权
 		return this.getAuthenticationManager().authenticate(smsCodeAuthenticationToken);
 	}
 	
