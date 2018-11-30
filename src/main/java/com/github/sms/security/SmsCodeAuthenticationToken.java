@@ -18,7 +18,7 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 	private Object principal;
 	private String smsCode;
 
-	public SmsCodeAuthenticationToken(String phone,String code) {
+	public SmsCodeAuthenticationToken(String phone, String code) {
 		super(null);
 		this.principal = phone;
 		this.smsCode = code;
@@ -34,8 +34,7 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 	@Override
 	public void setAuthenticated(boolean authenticated) {
 		if (authenticated) {
-			throw new IllegalArgumentException(
-					"Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
+			throw new IllegalArgumentException("Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
 		}
 		super.setAuthenticated(false);
 	}
@@ -57,6 +56,5 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 	public void setSmsCode(String smsCode) {
 		this.smsCode = smsCode;
 	}
-	
 
 }

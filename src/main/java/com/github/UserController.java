@@ -16,4 +16,5 @@ public class UserController {
 	public Object user(Authentication authentication) {
 		return authentication.getPrincipal();
 	}
+	
 }

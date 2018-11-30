@@ -1,6 +1,5 @@
 package com.github.core;
 
-import lombok.Data;
 
 /**
  * 

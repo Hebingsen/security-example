@@ -48,8 +48,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 		}
 
 		// 鉴权通过后,创建新的鉴权通过的令牌信息
-		SmsCodeAuthenticationToken resultAuthenticationToken = new SmsCodeAuthenticationToken(
-				new CustomUserDetails(user), null);
+		SmsCodeAuthenticationToken resultAuthenticationToken = new SmsCodeAuthenticationToken(new CustomUserDetails(user), null);
 		resultAuthenticationToken.setDetails(smsCodeAuthenticationToken.getDetails());
 
 		// 返回最后的令牌信息
